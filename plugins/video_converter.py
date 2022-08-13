@@ -26,8 +26,10 @@ from hachoir.metadata import extractMetadata
 from functions.nekmo_ffmpeg import take_screen_shot
 from functions.display_progress import progress_for_pyrogram
 from pyrogram.errors import UserNotParticipant, UserBannedInChannel
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
+from pyrogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton
+)
 
 @Clinton.on_message(filters.command(["convert"]))
 async def convert(bot, update):
