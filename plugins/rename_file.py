@@ -18,16 +18,21 @@ else:
     from config import Config
 
 from PIL import Image
-from pyrogram import filters
 from scripts import Scripted
 from database.database import *
-from pyrogram import Client as Clinton
+from pyrogram import (
+    filters,
+    Client as Clinton,
+    enums
+)
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
 from functions.display_progress import progress_for_pyrogram
 from pyrogram.errors import UserNotParticipant, UserBannedInChannel
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
+from pyrogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton
+)
 
 
 @Clinton.on_message(filters.command(["rename"]))
@@ -59,7 +64,7 @@ async def rename_doc(bot, update):
         c = await bot.send_message(
             chat_id=update.chat.id,
             text=Scripted.TRYING_TO_DOWNLOAD,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         c_time = time.time()
         the_real_download_location = await bot.download_media(
@@ -73,7 +78,7 @@ async def rename_doc(bot, update):
                 await bot.edit_message_text(
                     text=Scripted.TRYING_TO_UPLOAD,
                     chat_id=update.chat.id,
-                    message_id=c.message_id
+                    message_id=c.id
                 )
             except:
                 pass
@@ -107,7 +112,7 @@ async def rename_doc(bot, update):
             document=new_file_name,
             thumb=thumb_image_path,
             caption=description,
-            reply_to_message_id=update.reply_to_message.message_id,
+            reply_to_message_id=update.reply_to_message.id,
             progress=progress_for_pyrogram,
             progress_args=(Scripted.UPLOAD_START, c, c_time))
 
@@ -119,11 +124,11 @@ async def rename_doc(bot, update):
             await bot.edit_message_text(
                   text=Scripted.UPLOAD_SUCCESS,
                   chat_id=update.chat.id,
-                  message_id=c.message_id
+                  message_id=c.id
             )
 
     else:
         await bot.send_message(
             chat_id=update.chat.id,
             text=Scripted.REPLY_TO_FILE,
-            reply_to_message_id=update.message_id)
+            reply_to_message_id=update.id)
