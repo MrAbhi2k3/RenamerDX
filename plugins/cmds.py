@@ -18,11 +18,14 @@ if bool(os.environ.get("WEBHOOK", False)):
 else:
     from config import Config
 
-from pyrogram import filters
+from pyrogram import (
+    filters,
+    Client as Clinton,
+    enums
+)
 from scripts import (
     Scripted
 )
-from pyrogram import Client as Clinton
 from pyrogram.types import (
     InlineKeyboardMarkup,
     InlineKeyboardButton
