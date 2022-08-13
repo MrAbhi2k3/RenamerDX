@@ -18,9 +18,12 @@ else:
     from config import Config
 
 from PIL import Image
-from pyrogram import filters
+from pyrogram import (
+    filters,
+    Client as Clinton,
+    enums
+)
 from scripts import Scripted
-from pyrogram import Client as Clinton
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
 from functions.nekmo_ffmpeg import take_screen_shot
@@ -58,7 +61,7 @@ async def convert(bot, update):
         c = await bot.send_message(
             chat_id=update.chat.id,
             text=Scripted.TRYING_TO_DOWNLOAD,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         c_time = time.time()
         the_real_download_location = await bot.download_media(
@@ -75,7 +78,7 @@ async def convert(bot, update):
             await bot.edit_message_text(
                 text=Scripted.TRYING_TO_UPLOAD,
                 chat_id=update.chat.id,
-                message_id=c.message_id
+                message_id=c.id
             )
             logger.info(the_real_download_location)
             width = 0
@@ -113,7 +116,7 @@ async def convert(bot, update):
                 height=height,
                 supports_streaming=True,
                 thumb=thumb_image_path,
-                reply_to_message_id=update.reply_to_message.message_id,
+                reply_to_message_id=update.reply_to_message.id,
                 progress=progress_for_pyrogram,
                 progress_args=(
                     Scripted.UPLOAD_START,
@@ -129,11 +132,11 @@ async def convert(bot, update):
             await bot.edit_message_text(
                   text=Scripted.UPLOAD_SUCCESS,
                   chat_id=update.chat.id,
-                  message_id=c.message_id
+                  message_id=c.id
             )
             
     else:
         await bot.send_message(
             chat_id=update.chat.id,
             text=Scripted.REPLY_TO_MEDIA,
-            reply_to_message_id=update.message_id)
+            reply_to_message_id=update.id)
